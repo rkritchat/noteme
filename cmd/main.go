@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/joho/godotenv"
 	"log"
 	"noteme/internal/config"
 	"noteme/internal/repository"
@@ -10,11 +9,6 @@ import (
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		panic(err)
-	}
-
 	cfg := config.NewConfig()
 	userRepo := repository.NewUserRepository(cfg.DB)
 	userService := service.NewUser(userRepo)

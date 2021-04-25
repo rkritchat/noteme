@@ -6,7 +6,11 @@ import (
 )
 
 type User interface {
-	GetUser(c *fiber.Ctx) error
+	GetUserDetail(c *fiber.Ctx) error
+	UpdateUserDetail(c *fiber.Ctx) error
+	Register(c *fiber.Ctx) error
+	Login(c *fiber.Ctx) error
+	Logout(c *fiber.Ctx) error
 }
 
 type user struct {
@@ -19,10 +23,26 @@ func NewUser(UserRepo repository.UserRepository) User {
 	}
 }
 
-func (s user) GetUser(c *fiber.Ctx) error {
+func (s user) GetUserDetail(c *fiber.Ctx) error {
 	user, err := s.userRepo.FindByUsername("rkritchat")
 	if err != nil {
 		return c.SendString("internal server error")
 	}
 	return c.JSON(&user)
+}
+
+func (s user) UpdateUserDetail(c *fiber.Ctx) error {
+	panic("implement me")
+}
+
+func (s user) Register(c *fiber.Ctx) error {
+	panic("implement me")
+}
+
+func (s user) Login(c *fiber.Ctx) error {
+	panic("implement me")
+}
+
+func (s user) Logout(c *fiber.Ctx) error {
+	panic("implement me")
 }

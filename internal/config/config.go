@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"github.com/gobuffalo/pop"
+	"github.com/joho/godotenv"
 	"os"
 )
 
@@ -11,6 +12,13 @@ type config struct {
 }
 
 func NewConfig() *config {
+	//read .evn
+	err := godotenv.Load()
+	if err != nil {
+		panic(err)
+	}
+
+	//init config
 	cfg := new(config)
 	cfg.initDB()
 	return cfg

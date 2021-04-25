@@ -16,6 +16,7 @@ type UserEntity struct {
 }
 
 type UserRepository interface {
+	Create(entity UserEntity) error
 	FindByUsername(username string) (*UserEntity, error)
 }
 
@@ -32,6 +33,10 @@ func NewUserRepository(DB *pop.Connection) UserRepository {
 func (repo userRepository) FindByUsername(username string) (*UserEntity, error) {
 	var r UserEntity
 	return &r, repo.DB.Where("username = ?", username).First(&r)
+}
+
+func (repo userRepository) Create(entity UserEntity) error {
+	return repo.DB.Create(&entity)
 }
 
 func (UserEntity) TableName() string {
