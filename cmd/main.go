@@ -1,19 +1,22 @@
 package main
 
 import (
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/joho/godotenv"
 	"log"
-	"time"
+	"noteme/internal/config"
+	"noteme/internal/repository"
+	"noteme/internal/router"
+	"noteme/internal/service"
 )
 
 func main() {
-	app := fiber.New()
-	app.Use(logger.New())
-	app.Get("/test", func(c *fiber.Ctx) error {
-		time.Sleep(1 * time.Second)
+	err := godotenv.Load()
+	if err != nil {
+		panic(err)
+	}
 
-		return c.SendString("Hello world")
-	})
-	log.Fatal(app.Listen(":3000"))
+	cfg := config.NewConfig()
+	userRepo := repository.NewUserRepository(cfg.DB)
+	userService := service.NewUser(userRepo)
+	log.Fatal(router.NewRouter(userService).Listen(":3000"))
 }
